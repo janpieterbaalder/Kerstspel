@@ -73,11 +73,25 @@ rightButton.addEventListener('mousedown', () => player.dx = player.speed);
 leftButton.addEventListener('mouseup', () => player.dx = 0);
 rightButton.addEventListener('mouseup', () => player.dx = 0);
 
-leftButton.addEventListener('pointerdown', () => player.dx = -player.speed);
-rightButton.addEventListener('pointerdown', () => player.dx = player.speed);
+leftButton.addEventListener('pointerdown', () => {
+    player.dx = -player.speed;
+    console.log("Moving left");
+});
+rightButton.addEventListener('pointerdown', () => {
+    player.dx = player.speed;
+    console.log("Moving right");
+});
 
-leftButton.addEventListener('pointerup', () => player.dx = 0);
-rightButton.addEventListener('pointerup', () => player.dx = 0);
+
+leftButton.addEventListener('pointerup', () => {
+    player.dx = 0;
+    console.log("Stopped moving left");
+});
+rightButton.addEventListener('pointerup', () => {
+    player.dx = 0;
+    console.log("Stopped moving right");
+});
+
 
 // Event listeners voor toetsenbord
 document.addEventListener('keydown', (e) => {
