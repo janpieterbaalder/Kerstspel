@@ -21,7 +21,7 @@ const player = {
 };
 
 const balls = [];
-let ballSpeed = 4;
+let ballSpeed = 2; // Lagere startsnelheid
 let score = 0;
 const ballDistance = 300;
 let lastBallY = -ballDistance;
@@ -207,7 +207,7 @@ function gameLoop() {
             balls.length = 0; // Reset ballen
             player.x = canvas.width / 2 - player.width / 2; // Reset spelerpositie
             score = 0; // Reset score
-            ballSpeed = 4; // Reset snelheid
+            ballSpeed = 2; // Reset snelheid
         }
     });
 
