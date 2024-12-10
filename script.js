@@ -21,7 +21,7 @@ const player = {
 };
 
 const balls = [];
-let ballSpeed = 2; // Lagere startsnelheid
+let ballSpeed = 0; // Lagere startsnelheid
 let score = 0;
 const ballDistance = 300;
 let lastBallY = -ballDistance;
