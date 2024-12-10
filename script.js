@@ -21,9 +21,10 @@ const player = {
 };
 
 const balls = [];
-const ballSpeed = 4;
-const ballInterval = 2000;
-let lastBallTime = Date.now();
+let ballSpeed = 4;
+let score = 0;
+const ballDistance = 300;
+let lastBallY = -ballDistance;
 
 // Event listeners voor speler beweging
 document.addEventListener('keydown', (e) => {
@@ -38,13 +39,9 @@ document.addEventListener('keyup', (e) => {
 // Functie om hitboxen van het mannetje te definiëren
 function getPlayerHitboxes() {
     return [
-        // Hoofd
         { type: 'circle', x: player.x + 64, y: player.y + 19, radius: 18 },
-        // Torso
         { type: 'circle', x: player.x + 66, y: player.y + 74, radius: 32 },
-        // Linkerhand
         { type: 'rect', x: player.x + 2, y: player.y + 88, width: 20, height: 20 },
-        // Rechterhand
         { type: 'rect', x: player.x + 102, y: player.y + 86, width: 18, height: 18 }
     ];
 }
@@ -53,8 +50,8 @@ function getPlayerHitboxes() {
 function getBallHitbox(ball) {
     return {
         x: ball.x + 25,
-        y: ball.y + 29,
-        radius: 17
+        y: ball.y + 25,
+        radius: 25
     };
 }
 
@@ -66,15 +63,18 @@ function newBall() {
 
 // Update positie van de kerstballen
 function updateBalls() {
-    const now = Date.now();
-    if (now - lastBallTime > ballInterval) {
+    if (balls.length === 0 || balls[balls.length - 1].y > lastBallY + ballDistance) {
         newBall();
-        lastBallTime = now;
+        lastBallY = balls[balls.length - 1].y;
     }
 
     balls.forEach((ball, index) => {
         ball.y += ballSpeed;
-        if (ball.y > canvas.height) balls.splice(index, 1);
+        if (ball.y > canvas.height) {
+            balls.splice(index, 1);
+            score++;
+            if (score % 10 === 0) ballSpeed += 1; // Verhoog snelheid na 10 punten
+        }
     });
 }
 
@@ -84,7 +84,6 @@ function isCollision(ball, playerHitboxes) {
 
     for (const hitbox of playerHitboxes) {
         if (hitbox.type === 'circle') {
-            // Controleer cirkel-cirkel botsing
             const distX = ballHitbox.x - hitbox.x;
             const distY = ballHitbox.y - hitbox.y;
             const distance = Math.sqrt(distX ** 2 + distY ** 2);
@@ -92,7 +91,6 @@ function isCollision(ball, playerHitboxes) {
                 return true;
             }
         } else if (hitbox.type === 'rect') {
-            // Controleer cirkel-rechthoek botsing
             const closestX = Math.max(hitbox.x, Math.min(ballHitbox.x, hitbox.x + hitbox.width));
             const closestY = Math.max(hitbox.y, Math.min(ballHitbox.y, hitbox.y + hitbox.height));
             const distanceX = ballHitbox.x - closestX;
@@ -113,31 +111,16 @@ function drawBackground() {
 
 function drawPlayer() {
     ctx.drawImage(playerImage, player.x, player.y, player.width, player.height);
-
-    // Teken hitboxen van de speler
-    const playerHitboxes = getPlayerHitboxes();
-    ctx.strokeStyle = 'red';
-    playerHitboxes.forEach((hitbox) => {
-        if (hitbox.type === 'circle') {
-            ctx.beginPath();
-            ctx.arc(hitbox.x, hitbox.y, hitbox.radius, 0, Math.PI * 2);
-            ctx.stroke();
-        } else if (hitbox.type === 'rect') {
-            ctx.strokeRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
-        }
-    });
 }
 
 function drawBall(ball) {
     ctx.drawImage(ballImage, ball.x, ball.y, ball.width, ball.height);
+}
 
-    // Teken hitbox van de bal
-    const ballHitbox = getBallHitbox(ball);
-    ctx.beginPath();
-    ctx.arc(ballHitbox.x, ballHitbox.y, ballHitbox.radius, 0, Math.PI * 2);
-    ctx.strokeStyle = 'blue';
-    ctx.stroke();
-    ctx.closePath();
+function drawScore() {
+    ctx.font = '20px Arial';
+    ctx.fillStyle = 'white';
+    ctx.fillText(`Score: ${score}`, 10, 30);
 }
 
 // Game loop
@@ -164,8 +147,13 @@ function gameLoop() {
             alert('Game Over!');
             balls.length = 0; // Reset ballen
             player.x = canvas.width / 2 - player.width / 2; // Reset spelerpositie
+            score = 0; // Reset score
+            ballSpeed = 4; // Reset snelheid
         }
     });
+
+    // Teken score
+    drawScore();
 
     requestAnimationFrame(gameLoop);
 }
