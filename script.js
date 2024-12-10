@@ -39,23 +39,26 @@ const controlsStyle = document.createElement('style');
 controlsStyle.textContent = `
     #controls {
         position: absolute;
-        bottom: 20px;
+        bottom: 50px;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
-        gap: 10px;
+        gap: 15px;
+        z-index: 10;
+        pointer-events: auto;
     }
     #controls button {
-        padding: 10px 20px;
-        font-size: 20px;
+        padding: 15px 30px;
+        font-size: 24px;
         border: none;
-        border-radius: 5px;
-        background-color: #555;
+        border-radius: 10px;
+        background-color: rgba(85, 85, 85, 0.8);
         color: white;
         cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
     #controls button:active {
-        background-color: #777;
+        background-color: rgba(119, 119, 119, 0.8);
     }
 `;
 document.head.appendChild(controlsStyle);
@@ -70,8 +73,13 @@ rightButton.addEventListener('mousedown', () => player.dx = player.speed);
 leftButton.addEventListener('mouseup', () => player.dx = 0);
 rightButton.addEventListener('mouseup', () => player.dx = 0);
 
+leftButton.addEventListener('touchstart', () => player.dx = -player.speed);
+rightButton.addEventListener('touchstart', () => player.dx = player.speed);
+
+leftButton.addEventListener('touchend', () => player.dx = 0);
+rightButton.addEventListener('touchend', () => player.dx = 0);
+
 // Event listeners voor toetsenbord
-// (blijven onveranderd voor desktopgebruik)
 document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') player.dx = -player.speed;
     if (e.key === 'ArrowRight') player.dx = player.speed;
