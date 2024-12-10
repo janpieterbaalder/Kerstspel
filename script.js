@@ -26,7 +26,52 @@ let score = 0;
 const ballDistance = 300;
 let lastBallY = -ballDistance;
 
-// Event listeners voor speler beweging
+// Voeg knoppen toe voor mobiel gebruik
+document.body.insertAdjacentHTML('beforeend', `
+    <div id="controls">
+        <button id="leftButton">⬅️</button>
+        <button id="rightButton">➡️</button>
+    </div>
+`);
+
+// Styling voor de knoppen
+const controlsStyle = document.createElement('style');
+controlsStyle.textContent = `
+    #controls {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+    }
+    #controls button {
+        padding: 10px 20px;
+        font-size: 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #555;
+        color: white;
+        cursor: pointer;
+    }
+    #controls button:active {
+        background-color: #777;
+    }
+`;
+document.head.appendChild(controlsStyle);
+
+// Event listeners voor knoppen
+const leftButton = document.getElementById('leftButton');
+const rightButton = document.getElementById('rightButton');
+
+leftButton.addEventListener('mousedown', () => player.dx = -player.speed);
+rightButton.addEventListener('mousedown', () => player.dx = player.speed);
+
+leftButton.addEventListener('mouseup', () => player.dx = 0);
+rightButton.addEventListener('mouseup', () => player.dx = 0);
+
+// Event listeners voor toetsenbord
+// (blijven onveranderd voor desktopgebruik)
 document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') player.dx = -player.speed;
     if (e.key === 'ArrowRight') player.dx = player.speed;
