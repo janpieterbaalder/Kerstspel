@@ -16,12 +16,12 @@ const player = {
     y: canvas.height - 260,
     width: 120,
     height: 240,
-    speed: 5,
+    speed: 1,
     dx: 0
 };
 
 const balls = [];
-let ballSpeed = 4;
+let ballSpeed = 0;
 let score = 0;
 const ballDistance = 300;
 let lastBallY = -ballDistance;
