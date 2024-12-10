@@ -21,10 +21,20 @@ const player = {
 };
 
 const balls = [];
-let ballSpeed = 0; // Lagere startsnelheid
+let ballSpeed = 4;
 let score = 0;
 const ballDistance = 300;
 let lastBallY = -ballDistance;
+
+// Event listeners voor speler beweging
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') player.dx = -player.speed;
+    if (e.key === 'ArrowRight') player.dx = player.speed;
+});
+
+document.addEventListener('keyup', (e) => {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') player.dx = 0;
+});
 
 // Functie om hitboxen van het mannetje te definiëren
 function getPlayerHitboxes() {
@@ -138,7 +148,7 @@ function gameLoop() {
             balls.length = 0; // Reset ballen
             player.x = canvas.width / 2 - player.width / 2; // Reset spelerpositie
             score = 0; // Reset score
-            ballSpeed = 2; // Reset snelheid
+            ballSpeed = 4; // Reset snelheid
         }
     });
 
