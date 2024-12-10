@@ -73,11 +73,11 @@ rightButton.addEventListener('mousedown', () => player.dx = player.speed);
 leftButton.addEventListener('mouseup', () => player.dx = 0);
 rightButton.addEventListener('mouseup', () => player.dx = 0);
 
-leftButton.addEventListener('touchstart', () => player.dx = -player.speed);
-rightButton.addEventListener('touchstart', () => player.dx = player.speed);
+leftButton.addEventListener('pointerdown', () => player.dx = -player.speed);
+rightButton.addEventListener('pointerdown', () => player.dx = player.speed);
 
-leftButton.addEventListener('touchend', () => player.dx = 0);
-rightButton.addEventListener('touchend', () => player.dx = 0);
+leftButton.addEventListener('pointerup', () => player.dx = 0);
+rightButton.addEventListener('pointerup', () => player.dx = 0);
 
 // Event listeners voor toetsenbord
 document.addEventListener('keydown', (e) => {
