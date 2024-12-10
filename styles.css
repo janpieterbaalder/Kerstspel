@@ -1,17 +1,3 @@
-body {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #000;
-    height: 100vh;
-}
-
-canvas {
-    border: 2px solid white;
-}
-
 #controls {
     position: absolute;
     bottom: 20px;
@@ -19,6 +5,8 @@ canvas {
     transform: translateX(-50%);
     display: flex;
     gap: 10px;
+    z-index: 10; /* Zorgt dat knoppen bovenop liggen */
+    pointer-events: auto; /* Sta klikken op knoppen toe */
 }
 
 #controls button {
