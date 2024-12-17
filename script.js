@@ -183,7 +183,7 @@ function drawStartScreen() {
 
     ctx.fillStyle='white';
     ctx.font='30px Arial';
-    ctx.fillText('Voer je nickname in voor de Highscore:', 50, 400);
+    ctx.fillText('Eerst je naam, klik dan op start:', 50, 400);
 
     // "Invoerveld" achtergrond
     ctx.fillStyle='rgba(255,255,255,0.2)';
